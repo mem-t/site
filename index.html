@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Главная страница — SNDTAG</title>
+    
+    <!-- Подключение Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Безопасность и кэширование -->
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    
+    <!-- Подключение шрифтов Google -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    
+    <!-- Подключение jQuery и jQuery Form -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js"></script>
+    
+    <!-- Локальные скрипты и стили -->
+    <script src="assets/js/XAlert.js@cache=1742053199"></script>
+    <link rel="stylesheet" href="assets/css/app.css@cache=1742053199.css"/>
+
+    <!-- Встроенные стили -->
+    <style>
+        /* Стили для body с градиентным фоном и анимацией */
+        body {
+            background: radial-gradient(circle at center, #2a2a4e, #1f2a44, #0d1b2a);
+            background-size: 200% 200%;
+            animation: gradientPulse 20s ease infinite;
+            font-family: 'Roboto', sans-serif;
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+        }
+
+        @keyframes gradientPulse {
+            0% { background-position: 0% 0%; }
+            50% { background-position: 100% 100%; }
+            100% { background-position: 0% 0%; }
+        }
+
+        /* Обертка контента */
+        .content-wrapper {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Секции */
+        .section {
+            display: none;
+            width: 100%;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .section.active {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 1;
+        }
+
+        /* Кастомная кнопка */
+        .btn-custom {
+            transition: all 0.3s ease;
+            background: linear-gradient(45deg, #5d5fef, #8a4af3);
+            color: #fff;
+            border-radius: 10px;
+            padding: 0.75rem 1.25rem;
+            width: 100%;
+            max-width: 280px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(93, 95, 239, 0.3);
+            font-size: 0.9rem;
+        }
+
+        .btn-custom::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .btn-custom:hover::before {
+            left: 100%;
+        }
+
+        .btn-custom:hover {
+            transform: scale(1.03);
+            box-shadow: 0 5px 15px rgba(93, 95, 239, 0.4);
+        }
+
+        .btn-custom:active {
+            transform: scale(0.97);
+        }
+
+        .btn-custom span.absolute {
+            top: -1.5rem;
+            right: -1rem;
+            padding: 0.3rem 0.6rem;
+            font-size: 0.7rem;
+            line-height: 1;
+        }
+
+        /* Отключенная кнопка */
+        .btn-disabled {
+            background: linear-gradient(45deg, #4b5563, #6b7280);
+            cursor: not-allowed;
+        }
+
+        /* Заголовок */
+        .title {
+            background: linear-gradient(90deg, #a5b4fc, #60a5fa, #a5b4fc);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 1px 5px rgba(165, 180, 252, 0.5);
+            animation: titleGlow 3s ease infinite;
+            font-size: 1.5rem;
+            line-height: 1.2;
+        }
+
+        @keyframes titleGlow {
+            0% { text-shadow: 0 1px 5px rgba(165, 180, 252, 0.5); }
+            50% { text-shadow: 0 2px 10px rgba(165, 180, 252, 0.8); }
+            100% { text-shadow: 0 1px 5px rgba(165, 180, 252, 0.5); }
+        }
+
+        /* Текст футера */
+        .footer-text {
+            animation: subtleBounce 2s ease infinite;
+            text-shadow: 0 1px 3px rgba(255, 255, 255, 0.2);
+            font-size: 0.75rem;
+        }
+
+        @keyframes subtleBounce {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-3px); }
+            100% { transform: translateY(0); }
+        }
+
+        /* Фон с частицами */
+        .bg-particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80"><circle cx="40" cy="40" r="1" fill="rgba(255,255,255,0.1)"/></svg>');
+            animation: particleFloat 15s linear infinite;
+        }
+
+        @keyframes particleFloat {
+            0% { background-position: 0 0; }
+            100% { background-position: 80px 80px; }
+        }
+
+        /* Адаптивность для маленьких экранов */
+        @media (max-width: 640px) {
+            .btn-custom {
+                padding: 0.6rem 1rem;
+                max-width: 240px;
+                font-size: 0.85rem;
+            }
+            .btn-custom span.absolute {
+                top: -1.2rem;
+                right: -0.8rem;
+                padding: 0.25rem 0.5rem;
+                font-size: 0.65rem;
+            }
+            .title { font-size: 1.25rem; }
+            .content-wrapper { padding: 0.5rem; }
+            .footer-text { font-size: 0.65rem; }
+        }
+    </style>
+</head>
+
+<body class="text-gray-100 select-none">
+    <!-- Фон с частицами -->
+    <div class="bg-particles"></div>
+
+    <!-- Тост уведомление -->
+    <div id="toast" class="z-[9999] fixed left-0 right-0 top-4 justify-center hidden animate-pulse">
+        <div class="bg-[#2a2a4e] rounded-lg px-4 py-2 ring-2 ring-inset ring-[#3d3d6b] shadow-xl">
+            <div class="flex gap-2 items-center">
+                <p id="toast__text" class="text-sm text-white">Ссылка скопирована!</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Главная секция -->
+    <div id="home" class="content-wrapper section active">
+        <h1 class="title font-bold mb-6">САЙТ КАНАЛА @SOUNDTAGTUTORIAL</h1>
+        <div class="flex flex-col items-center gap-3 w-full">
+            <a href="https://t.me/soundtagtutorial" class="btn-custom">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" width="20" height="20" stroke-width="2">
+                    <path d="M15 10l-4 4l6 6l4 -16l-18 7l4 2l2 6l3 -4"></path>
+                </svg>
+                Наш Telegram
+            </a>
+            <a href="https://t.me/shizw" class="btn-custom">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/>
+                </svg>
+                Поддержка
+            </a>
+            <div id="to-sounds" class="btn-custom relative">
+                Звуки
+                <span class="absolute bg-red-500 text-white text-xs font-bold rounded-full shadow-md">NEW</span>
+            </div>
+            <div class="btn-custom btn-disabled relative overflow-hidden">
+                Авторизация 
+                <span class="text-xs ml-1 italic transform -rotate-12 inline-block bg-gray-600 bg-opacity-50 px-1 py-0.5 rounded">СКОРО</span>
+                <div class="absolute inset-0 bg-gray-400 opacity-20 blur-sm pointer-events-none"></div>
+            </div>
+        </div>
+        <p class="mt-6 text-gray-300 footer-text">У нас нет других сайтов и соцсетей.</p>
+    </div>
+
+    <!-- Секция звуков -->
+    <div id="sounds" class="content-wrapper section">
+        <h1 class="title font-bold mb-6">ЗВУКИ</h1>
+        <div class="flex flex-col items-center gap-3 w-full">
+            <div id="to-home" class="btn-custom">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" width="20" height="20" stroke-width="2">
+                    <path d="M19 12H5M12 19l-7-7 7-7"></path>
+                </svg>
+                Назад
+            </div>
+            <div class="btn-custom copy-link" data-link="https://t-alpha-seven.vercel.app/">Творожок</div>
+            <div class="btn-custom copy-link" data-link="https://st-vert.vercel.app/">Стоны</div>
+            <div class="btn-custom copy-link" data-link="https://y-eight-phi.vercel.app/">Устал дро*ить на обычное пор**о</div>
+            <div class="btn-custom copy-link" data-link="https://per-five.vercel.app/">Звук из туалета</div>
+            <div class="btn-custom copy-link" data-link="https://c-two-xi.vercel.app/">Звук меняющийся с голосованием</div>
+            <div class="btn-custom copy-link" data-link="https://photoset.vercel.app/">Сайт с фоткой и звуком</div>
+        </div>
+        <p class="mt-6 text-gray-300 footer-text">У нас нет других сайтов и соцсетей.</p>
+    </div>
+
+    <!-- Скрипты -->
+    <script>
+        // Запрет контекстного меню, выделения и копирования
+        document.addEventListener('contextmenu', event => event.preventDefault());
+        document.addEventListener('selectstart', event => event.preventDefault());
+        document.addEventListener('copy', event => event.preventDefault());
+
+        // Защита от открытия инструментов разработчика
+        (function() {
+            let devToolsDetected = false;
+            const threshold = 160;
+
+            function checkDevTools() {
+                if (window.outerWidth - window.innerWidth > threshold || window.outerHeight - window.innerHeight > threshold) {
+                    if (!devToolsDetected) {
+                        devToolsDetected = true;
+                        document.body.innerHTML = '<h1>Доступ запрещен</h1>';
+                    }
+                } else {
+                    devToolsDetected = false;
+                }
+            }
+
+            setInterval(checkDevTools, 1000);
+
+            document.addEventListener('keydown', event => {
+                if (event.key === 'F12' || (event.ctrlKey && event.shiftKey && event.key === 'I')) {
+                    event.preventDefault();
+                    alert('Доступ к инструментам разработчика запрещен');
+                }
+            });
+        })();
+
+        // Переключение между секциями
+        document.getElementById('to-sounds').addEventListener('click', function() {
+            document.getElementById('home').classList.remove('active');
+            document.getElementById('sounds').classList.add('active');
+        });
+
+        document.getElementById('to-home').addEventListener('click', function() {
+            document.getElementById('sounds').classList.remove('active');
+            document.getElementById('home').classList.add('active');
+        });
+
+        // Копирование ссылок в буфер обмена
+        document.querySelectorAll('.copy-link').forEach(button => {
+            button.addEventListener('click', function() {
+                navigator.clipboard.writeText(this.getAttribute('data-link')).then(() => {
+                    const toast = document.getElementById('toast');
+                    toast.classList.remove('hidden');
+                    setTimeout(() => {
+                        toast.classList.add('hidden');
+                    }, 2000);
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Play Sound</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <div class="container">
+        <button id="playBtn">Воспроизвести</button>
+        <audio id="audioPlayer" src="../audio/audio_1744459179921_pozharnaia-trevoga.mp3"></audio>
+    </div>
+    <script>
+        const playBtn = document.getElementById('playBtn');
+        const audioPlayer = document.getElementById('audioPlayer');
+        if (audioPlayer.src) {
+            playBtn.addEventListener('click', () => {
+                audioPlayer.play();
+            });
+        } else {
+            playBtn.disabled = true;
+            playBtn.textContent = 'Ошибка: Звук не найден';
+        }
+    </script>
+</body>
+</html>
